@@ -1,0 +1,24 @@
+<a class="a-link-create" role="button" [routerLink]="['/contact',contactId]"><i class="fas fa-arrow-left"></i>
+  Back to contact</a>
+<div class="container">
+  <div class="form-style-6">
+    <h1>Telephone</h1>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input type="hidden" formControlName="TelephoneId">
+      <input type="hidden" formControlName="ContactId">
+      <input id="name" class="form-control" type="text" placeholder="Phone Number" formControlName="Number">
+      <ng-container *ngIf="form.get('TelephoneId').value==0; then actionAdd; else actionModify">
+      </ng-container>
+    </form>
+  </div>
+</div>
+<ng-template #actionAdd>
+  <input type="submit" class="form-style-6" value="Add" [disabled]="!this.form.valid">
+  <input title="clear fields" type="button" value="Reset" class="form-style-6" (click)="resetForm()">
+</ng-template>
+
+<ng-template #actionModify>
+  <input type="submit" class="form-style-6" [disabled]="!this.form.valid">
+  <input title="cancel edit" type="button" value="Reset" class="form-style-6" (click)="resetForm()">
+  <input title="Delete Telephone" value="Delete" type="button" class="form-style-6" (click)="deleteTelephone()">
+</ng-template>
