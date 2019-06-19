@@ -19,6 +19,7 @@ export class TelephonePanelComponent implements OnInit, OnDestroy {
   private subscriptions: Array<Subscription> = [];
   private initialTelephone: Telephone;
 
+  private numberPattern = /^[0-9]{1,7}$/;
   constructor(
     private fb: FormBuilder,
     private telephoneService: TelephonesService,
@@ -30,7 +31,7 @@ export class TelephonePanelComponent implements OnInit, OnDestroy {
     this.initialTelephone = new Telephone();
     this.form = this.fb.group({
       TelephoneId: this.fb.control(0, [Validators.required]),
-      Number: this.fb.control(null, [Validators.required]),
+      Number: this.fb.control(null, [Validators.required, Validators.pattern(this.numberPattern)]),
       ContactId: this.fb.control(0, [Validators.required])
     });
 
@@ -80,7 +81,7 @@ export class TelephonePanelComponent implements OnInit, OnDestroy {
   deleteTelephone() {
     const result = confirm('You are going to delete this telephone. Are you absolutely sure?');
     if (!result) { return; }
-    
+
     if (this.telephoneId == null) { return; }
     this.telephoneService.deleteTelephone(this.form.get('TelephoneId').value)
       .subscribe(_ => {
