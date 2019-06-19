@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Telephone } from 'src/app/models/models';
 import { TelephonesService } from 'src/app/services/telephones/telephones.service';
@@ -64,7 +64,7 @@ export class TelephonePanelComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (!this.form.valid) { return; }
+    if (!this.form.valid) { this.validateAllFormFields(this.form); return; }
     if (this.telephoneId == 0) {
       this.telephoneService.postTelephone(this.form.value)
         .subscribe(_ => {
@@ -87,6 +87,21 @@ export class TelephonePanelComponent implements OnInit, OnDestroy {
       .subscribe(_ => {
         this.router.navigate(['contact', this.contactId]);
       })
+  }
+
+  /**
+   * Validates all fields.
+   * @param formGroup form group to run check.
+   */
+  private validateAllFormFields(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(field => {
+      if (!(formGroup.get(field) instanceof FormControl)) {
+        this.validateAllFormFields(<FormGroup>formGroup.get(field));
+      }
+      const control = formGroup.get(field);
+      control.markAsDirty();
+      control.updateValueAndValidity();
+    });
   }
 
   ngOnDestroy(): void {

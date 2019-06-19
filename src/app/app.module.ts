@@ -10,6 +10,7 @@ import { RoutingModule } from './routing-module';
 import { HttpClientModule } from '@angular/common/http';
 import { ServicesModule } from './modules/services/services.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ErrorMessageComponent } from './components/error-message/error-message/error-message.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ContactsViewComponent,
     ContactPanelComponent,
     TelephonesViewComponent,
-    TelephonePanelComponent
+    TelephonePanelComponent,
+    ErrorMessageComponent
   ],
   imports: [
     BrowserModule,

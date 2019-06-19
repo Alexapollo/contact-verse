@@ -1,10 +1,10 @@
 <a class="a-link-create" role="button" [routerLink]="['/contacts-view']"><i class="fas fa-arrow-left"></i>
   Back to view</a>
 <div class="container">
-
   <div class="form-style-6">
     <h1>Contact</h1>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <app-error-message [form]="form"></app-error-message>
       <input type="hidden" formControlName="ContactId">
       <input id="name" placeholder="Name" type="text" formControlName="Name">
       <input id="name" placeholder="Email Address" type="text" formControlName="Email">

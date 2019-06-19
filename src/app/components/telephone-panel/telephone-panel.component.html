@@ -4,6 +4,7 @@
   <div class="form-style-6">
     <h1>Telephone</h1>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <app-error-message [form]="form"></app-error-message>
       <input type="hidden" formControlName="TelephoneId">
       <input type="hidden" formControlName="ContactId">
       <input id="name" class="form-control" type="text" placeholder="Phone Number" formControlName="Number">

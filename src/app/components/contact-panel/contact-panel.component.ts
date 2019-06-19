@@ -62,7 +62,7 @@ export class ContactPanelComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (!this.form.valid) { return; }
+    if (!this.form.valid) {this.validateAllFormFields(this.form); return; }
     if (this.id == 0) {
       this.contactsService.postContact(this.form.value)
         .subscribe(_ => {
@@ -85,6 +85,21 @@ export class ContactPanelComponent implements OnInit, OnDestroy {
       .subscribe(_ => {
         this.router.navigate(['contacts-view']);
       });
+  }
+
+  /**
+   * Validates all fields.
+   * @param formGroup form group to run check.
+   */
+  private validateAllFormFields(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(field => {
+      if (!(formGroup.get(field) instanceof FormControl)) {
+        this.validateAllFormFields(<FormGroup>formGroup.get(field));
+      }
+      const control = formGroup.get(field);
+      control.markAsDirty();
+      control.updateValueAndValidity();
+    });
   }
 
   ngOnDestroy(): void {
